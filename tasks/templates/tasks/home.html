@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>All Tasks</h1>
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Change Status</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.department.name }}</td>
+            <td>{{ task.status }}</td>
+            <td>
+                <form method="POST" action="{% url 'update_task' task.id %}">
+                    {% csrf_token %}
+                    <select name="status">
+                        <option value="Pending" {% if task.status == 'Pending' %}selected{% endif %}>Pending</option>
+                        <option value="Completed" {% if task.status == 'Completed' %}selected{% endif %}>Completed</option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
